@@ -1,0 +1,39 @@
+{
+  "model_name": "Gradient_Boosting",
+  "resampling": "SMOTE_Tomek",
+  "threshold": 0.6700000000000002,
+  "f2_score": 0.2534750613246116,
+  "recall": 0.45925925925925926,
+  "precision": 0.09077598828696926,
+  "roc_auc": 0.8227961669148246,
+  "features": [
+    "Agency",
+    "Agency Type",
+    "Distribution Channel",
+    "Product Name",
+    "Duration",
+    "Destination",
+    "Net Sales",
+    "Commision (in value)",
+    "Age",
+    "Is_Senior",
+    "Sales_Per_Day",
+    "Commission_Rate"
+  ],
+  "num_features": [
+    "Duration",
+    "Net Sales",
+    "Commision (in value)",
+    "Age",
+    "Is_Senior",
+    "Sales_Per_Day",
+    "Commission_Rate"
+  ],
+  "cat_features": [
+    "Agency",
+    "Agency Type",
+    "Distribution Channel",
+    "Product Name",
+    "Destination"
+  ]
+}
