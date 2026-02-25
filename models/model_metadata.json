@@ -1,11 +1,14 @@
 {
   "model_name": "Gradient_Boosting",
-  "resampling": "SMOTE_Tomek",
-  "threshold": 0.6700000000000002,
-  "f2_score": 0.2534750613246116,
-  "recall": 0.45925925925925926,
-  "precision": 0.09077598828696926,
-  "roc_auc": 0.8227961669148246,
+  "resampling": "SMOTE",
+  "f2_threshold": 0.5900000000000002,
+  "profit_threshold": 0.8200000000000001,
+  "f2_score": 0.22794846382556988,
+  "recall": 0.34074074074074073,
+  "precision": 0.09808102345415778,
+  "roc_auc": 0.8318808672376419,
+  "profit_savings": 930.0,
+  "roi_percent": 1.3777777777777778,
   "features": [
     "Agency",
     "Agency Type",
@@ -35,5 +38,11 @@
     "Distribution Channel",
     "Product Name",
     "Destination"
-  ]
+  ],
+  "cost_assumptions": {
+    "cost_fn": 500,
+    "cost_fp": 50,
+    "cost_tp": 20,
+    "cost_tn": 0
+  }
 }
