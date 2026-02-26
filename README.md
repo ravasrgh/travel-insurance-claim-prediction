@@ -35,9 +35,9 @@ An internal audit by the Finance Team revealed the root cause: **unpredictable i
 | **Over-estimation** of claim reserves | Idle capital that could be invested elsewhere — opportunity cost |
 | **Under-estimation** of claim reserves | Unexpected claims force emergency fund liquidation — insolvency risk |
 
-As the **Risk Management Department**, we were tasked by the Chief Risk Officer (CRO) to build a **machine learning predictive model** that can forecast whether a policyholder will file a claim. This model serves as the foundation for an **early warning system** — enabling smarter, more proactive reserve allocation and protecting the company's financial stability.
+As the Risk Management Department, we were tasked by the Chief Risk Officer (CRO) to build a machine learning predictive model that can forecast whether a policyholder will file a claim. This model serves as the foundation for an early warning system, enabling smarter, more proactive reserve allocation and protecting the company's financial stability.
 
-> *"In the insurance industry, you don't go bankrupt from the claims you see coming. You go bankrupt from the ones you don't."*
+*"In the insurance industry, you don't go bankrupt from the claims you see coming. You go bankrupt from the ones you don't."*
 
 ---
 
@@ -45,22 +45,22 @@ As the **Risk Management Department**, we were tasked by the Chief Risk Officer 
 
 ### The Core Question
 
-> **How can we predict whether a travel insurance policyholder will file a claim, so that the company can optimally allocate claim reserves and reduce the cash flow uncertainty that threatens financial stability?**
+**How can we predict whether a travel insurance policyholder will file a claim, so that the company can optimally allocate claim reserves and reduce the cash flow uncertainty that threatens financial stability?**
 
 This is a **binary classification** problem:
 - **Claim = Yes (1):** Policyholder is predicted to file a claim
 - **Claim = No (0):** Policyholder is predicted NOT to file a claim
 
-### The Cost of Errors — Why FN is Worse Than FP
+### The Cost of Errors - Why FN is Worse Than FP
 
-In insurance claim prediction, prediction errors have **asymmetric financial consequences**:
+In insurance claim prediction, prediction errors have asymmetric financial consequences:
 
 | Error Type | Scenario | Business Impact | Risk Level |
 |---|---|---|---|
 | **True Positive (TP)** | Predict: Claim, Actual: Claim | Reserve ready, claim paid smoothly | Safe |
 | **True Negative (TN)** | Predict: No Claim, Actual: No Claim | Capital not locked unnecessarily | Safe |
-| **False Positive (FP)** | Predict: Claim, Actual: No Claim | Over-provisioning — capital locked, possible overpriced premiums | **Moderate** |
-| **False Negative (FN)** | Predict: No Claim, Actual: Claim | Unexpected claim — underfunded reserves, **insolvency risk**, regulatory penalties | **Critical** |
+| **False Positive (FP)** | Predict: Claim, Actual: No Claim | Over-provisioning — capital locked, possible overpriced premiums | Moderate |
+| **False Negative (FN)** | Predict: No Claim, Actual: Claim | Unexpected claim — underfunded reserves, **insolvency risk**, regulatory penalties | Critical |
 
 #### Why False Negatives Are Fatal
 
@@ -70,7 +70,7 @@ In insurance claim prediction, prediction errors have **asymmetric financial con
 2. **Reputation Damage** — Delayed claim payouts erode trust with customers and partner agencies.
 3. **Regulatory Fines** — Many jurisdictions impose penalties for late claim settlements.
 
-> **Bottom line:** We'd rather be *overly cautious* (predict claim when there isn't one) than *caught off guard* (miss a real claim). **Minimizing False Negatives is the #1 priority.**
+> **Bottom line:** We'd rather be *overly cautious* (predict claim when there isn't one) than *caught off guard* (miss a real claim). Minimizing False Negatives is the #1 priority.
 
 ### Cost Assumptions
 
@@ -95,7 +95,7 @@ Per-case cost assumptions used in ROI simulation:
 | **Records** | 44,328 policies |
 | **Features** | 10 features + 1 target |
 | **Target** | `Claim` (Yes / No) |
-| **Claim Rate** | **~1.53% Yes** vs **~98.47% No** |
+| **Claim Rate** | ~1.53% Yes vs ~98.47% No |
 | **Imbalance Ratio** | 1 : 64 (extremely imbalanced) |
 
 ### Feature Descriptions
@@ -106,21 +106,21 @@ Per-case cost assumptions used in ROI simulation:
 | 2 | `Agency Type` | Categorical | Airlines or Travel Agency |
 | 3 | `Distribution Channel` | Categorical | Online or Offline |
 | 4 | `Product Name` | Categorical | Travel insurance product name |
-| 5 | `Gender` | Categorical | Policyholder gender (F/M) — *dropped due to >30% missing* |
+| 5 | `Gender` | Categorical | Policyholder gender (F/M) (*dropped due to >30% missing*) |
 | 6 | `Duration` | Numerical | Trip duration (days) |
 | 7 | `Destination` | Categorical | Travel destination country |
 | 8 | `Net Sales` | Numerical | Net sales value (local currency) |
 | 9 | `Commision (in value)` | Numerical | Commission paid to agent |
 | 10 | `Age` | Numerical | Policyholder age |
-| 11 | `Claim` | **Target** | Whether a claim was filed: Yes/No |
+| 11 | `Claim` | Target | Whether a claim was filed: Yes/No |
 
 ### Data Cleaning Summary
 
 | Issue | Action | Rationale |
 |---|---|---|
 | Age = 118 | Replaced with median age | Unrealistic value — likely a placeholder/input error |
-| Negative Duration | Converted to absolute value | Trip duration cannot be negative — sign error |
-| Gender >30% missing | **Dropped column** | High missing rate + no correlation with claim — Occam's Razor |
+| Negative Duration | Converted to absolute value | Trip duration cannot be negative, sign error |
+| Gender >30% missing | **Dropped column** | High missing rate + no correlation with claim, Occam's Razor |
 | Outliers (Duration, Net Sales) | **Retained** | Natural variation; handled by RobustScaler during preprocessing |
 
 ### Feature Engineering
@@ -128,7 +128,7 @@ Per-case cost assumptions used in ROI simulation:
 | New Feature | Logic | Business Rationale |
 |---|---|---|
 | `Is_Senior` | Age > 60 = 1 | Senior travelers have higher health risk exposure |
-| `Sales_Per_Day` | Net Sales / Duration | Proxy for coverage level per day — premium policies behave differently |
+| `Sales_Per_Day` | Net Sales / Duration | Proxy for coverage level per day |
 | `Commission_Rate` | Commission / Net Sales | High commission ratio may indicate specific product types |
 
 ---
@@ -137,22 +137,22 @@ Per-case cost assumptions used in ROI simulation:
 
 ### The Challenge
 
-With a **1:64 imbalance ratio**, a naive model that predicts "No Claim" for everyone achieves 98.5% accuracy — but catches **zero** actual claims. This is useless. We needed aggressive resampling to teach the model what a "Claim" looks like.
+With a 1:64 imbalance ratio, a naive model that predicts "No Claim" for everyone achieves 98.5% accuracy but catches zero actual claims. This is useless. We needed aggressive resampling to teach the model what a "Claim" looks like.
 
 ### Experimental Design
 
-We tested **6 algorithms x 4 resampling scenarios = 24 combinations** using **5-Fold Stratified Cross-Validation** with F2-Score as the evaluation metric.
+We tested 6 algorithms x 4 resampling scenarios = 24 combinations using 5-Fold Stratified Cross-Validation with F2-Score as the evaluation metric.
 
 **Algorithms Tested:**
 
 | Model | Selection Rationale |
 |---|---|
-| Logistic Regression | Linear baseline — fast, interpretable |
-| Decision Tree | Non-linear baseline — captures feature interactions |
-| Random Forest | Bagging ensemble — reduces overfitting from single trees |
-| Gradient Boosting | Sequential boosting — strong at correcting prior errors |
-| XGBoost | Optimized boosting — native sparse handling, L1/L2 regularization |
-| LightGBM | Fast boosting — histogram-based splitting, efficient for high-cardinality categoricals |
+| Logistic Regression | Linear baseline: fast, interpretable |
+| Decision Tree | Non-linear baseline: captures feature interactions |
+| Random Forest | Bagging ensemble: reduces overfitting from single trees |
+| Gradient Boosting | Sequential boosting: strong at correcting prior errors |
+| XGBoost | Optimized boosting: native sparse handling, L1/L2 regularization |
+| LightGBM | Fast boosting: histogram-based splitting, efficient for high-cardinality categoricals |
 
 **Resampling Strategies:**
 
@@ -177,20 +177,20 @@ Tuning     : RandomizedSearchCV (50 iterations, 5-Fold CV)
 
 ### Why F2-Score?
 
-The **F2-Score** gives **2x weight to Recall** over Precision. This means the model is penalized **more heavily** for missing real claims (FN) than for false alarms (FP) — aligned with our business priority of catching every possible claim.
+The F2-Score gives 2x weight to Recall over Precision. This means the model is penalized more heavily for missing real claims (FN) than for false alarms (FP). This is aligned with our business priority of catching every possible claim.
 
-**Why not pure Recall?** Maximizing Recall alone would push the model to predict *everyone* as "Claim" — 100% Recall but ~0% Precision, which is operationally useless. F2-Score ensures balance while still prioritizing Recall.
+**Why not pure Recall?** Maximizing Recall alone would push the model to predict *everyone* as "Claim", 100% Recall but ~0% Precision, which is operationally useless. F2-Score ensures balance while still prioritizing Recall.
 
 ### Profit-Based Threshold Optimization
 
-Beyond the standard F2-Score threshold, we implemented **profit-based threshold optimization** — searching for the classification threshold that maximizes **total financial savings** for Global-Guard.
+Beyond the standard F2-Score threshold, we implemented profit-based threshold optimization. Searching for the classification threshold that maximizes total financial savings for Global-Guard.
 
 ```
 Standard threshold (F2-optimized) : 0.59
 Profit-optimized threshold        : 0.82
 ```
 
-> **The "Sweet Spot":** By tuning the threshold to 0.82, we found the point where the model achieves the best trade-off between catching claims and minimizing false alarm costs — maximizing the actual dollar savings for the company.
+**The "Sweet Spot":** By tuning the threshold to 0.82, we found the point where the model achieves the best trade-off between catching claims and minimizing false alarm costs, maximizing the actual dollar savings for the company.
 
 ### Final Model Performance
 
@@ -203,7 +203,7 @@ Profit-optimized threshold        : 0.82
 | **Profit Savings** | **$930** | Net savings vs. no-model baseline (on test set) |
 | **ROI** | **1.38%** | Return on investment from model deployment |
 
-> **Important Context:** The extreme class imbalance (1:64) makes raw F2/Recall numbers appear low, but the **ROC-AUC of 0.832** confirms that the model has strong discriminative ability. The profit-optimized threshold prioritizes financial outcomes over raw metric scores.
+**Important Context:** The extreme class imbalance (1:64) makes raw F2/Recall numbers appear low, but the **ROC-AUC of 0.832** confirms that the model has strong discriminative ability. The profit-optimized threshold prioritizes financial outcomes over raw metric scores.
 
 ---
 
@@ -213,19 +213,19 @@ SHAP (SHapley Additive exPlanations) analysis reveals which features **most infl
 
 ### Top Predictive Features
 
-1. **Product Name** — Certain insurance products have inherently higher claim rates. Products with broader coverage naturally attract more claims.
+1. **Product Name**: Certain insurance products have inherently higher claim rates. Products with broader coverage naturally attract more claims.
 
-2. **Agency** — Different agencies serve different customer segments. Agencies specializing in high-risk travel corridors show elevated claim rates.
+2. **Agency**: Different agencies serve different customer segments. Agencies specializing in high-risk travel corridors show elevated claim rates.
 
-3. **Destination** — Travel destination is a strong risk indicator. Regions with higher health/safety risks correlate with more claims.
+3. **Destination**: Travel destination is a strong risk indicator. Regions with higher health/safety risks correlate with more claims.
 
-4. **Duration** — Longer trips = longer exposure to risk. Trips exceeding 90 days show disproportionately higher claim rates.
+4. **Duration**: Longer trips = longer exposure to risk. Trips exceeding 90 days show disproportionately higher claim rates.
 
-5. **Net Sales** — Higher-value policies often have more comprehensive coverage, making it easier for policyholders to meet claim eligibility criteria.
+5. **Net Sales**: Higher-value policies often have more comprehensive coverage, making it easier for policyholders to meet claim eligibility criteria.
 
-6. **Commission Rate** — Products with higher commission rates tend to be pushed more aggressively by agents, sometimes to customers who may not fully understand the coverage — leading to mismatched expectations and disputes.
+6. **Commission Rate**: Products with higher commission rates tend to be pushed more aggressively by agents, sometimes to customers who may not fully understand the coverage — leading to mismatched expectations and disputes.
 
-> *These insights directly inform the business recommendations below — they're not just statistical curiosities, they're actionable intelligence for the Operations and Marketing teams.*
+These insights directly inform the business recommendations below. They're not just statistical curiosities, they're actionable intelligence for the Operations and Marketing teams.
 
 ---
 
@@ -349,17 +349,17 @@ jupyter notebook TravelInsurance_CapstoneProject3.ipynb
 
 ### What We Built
 
-A **machine learning-powered early warning system** for travel insurance claims that enables Global-Guard Travel Assurance to proactively allocate claim reserves instead of reacting to unexpected claims.
+A machine learning-powered early warning system for travel insurance claims that enables Global-Guard Travel Assurance to proactively allocate claim reserves instead of reacting to unexpected claims.
 
 ### Key Results
 
 | Metric | Value |
 |---|---|
 | Best Model | Gradient Boosting + SMOTE |
-| ROC-AUC | **0.832** (strong discriminative ability) |
+| ROC-AUC | 0.832 (strong discriminative ability) |
 | F2-Score | 0.228 (on extremely imbalanced data, 1:64) |
-| Net Savings | **$930** on test set |
-| ROI | **1.38%** positive return |
+| Net Savings | $930 on test set |
+| ROI | 1.38% positive return |
 
 ### Financial Impact
 
@@ -401,7 +401,3 @@ travel-insurance-claim-prediction/
     |-- Bank_Marketing_Campaign_Prediction_Aplha_Group.ipynb
 ```
 
----
-
-*Built with Python by the Risk Management Department, Global-Guard Travel Assurance*
-*Capstone Project Module 3 — February 2025*
