@@ -223,7 +223,7 @@ SHAP (SHapley Additive exPlanations) analysis reveals which features **most infl
 
 5. **Net Sales**: Higher-value policies often have more comprehensive coverage, making it easier for policyholders to meet claim eligibility criteria.
 
-6. **Commission Rate**: Products with higher commission rates tend to be pushed more aggressively by agents, sometimes to customers who may not fully understand the coverage — leading to mismatched expectations and disputes.
+6. **Commission Rate**: Products with higher commission rates tend to be pushed more aggressively by agents, sometimes to customers who may not fully understand the coverage, leading to mismatched expectations and disputes.
 
 These insights directly inform the business recommendations below. They're not just statistical curiosities, they're actionable intelligence for the Operations and Marketing teams.
 
