@@ -32,8 +32,8 @@ An internal audit by the Finance Team revealed the root cause: **unpredictable i
 
 | Problem | Consequence |
 |---|---|
-| **Over-estimation** of claim reserves | Idle capital that could be invested elsewhere — opportunity cost |
-| **Under-estimation** of claim reserves | Unexpected claims force emergency fund liquidation — insolvency risk |
+| **Over-estimation** of claim reserves | Idle capital that could be invested elsewhere: opportunity cost |
+| **Under-estimation** of claim reserves | Unexpected claims force emergency fund liquidation: insolvency risk |
 
 As the Risk Management Department, we were tasked by the Chief Risk Officer (CRO) to build a machine learning predictive model that can forecast whether a policyholder will file a claim. This model serves as the foundation for an early warning system, enabling smarter, more proactive reserve allocation and protecting the company's financial stability.
 
@@ -59,18 +59,18 @@ In insurance claim prediction, prediction errors have asymmetric financial conse
 |---|---|---|---|
 | **True Positive (TP)** | Predict: Claim, Actual: Claim | Reserve ready, claim paid smoothly | Safe |
 | **True Negative (TN)** | Predict: No Claim, Actual: No Claim | Capital not locked unnecessarily | Safe |
-| **False Positive (FP)** | Predict: Claim, Actual: No Claim | Over-provisioning — capital locked, possible overpriced premiums | Moderate |
-| **False Negative (FN)** | Predict: No Claim, Actual: Claim | Unexpected claim — underfunded reserves, **insolvency risk**, regulatory penalties | Critical |
+| **False Positive (FP)** | Predict: Claim, Actual: No Claim | Over-provisioning: capital locked, possible overpriced premiums | Moderate |
+| **False Negative (FN)** | Predict: No Claim, Actual: Claim | Unexpected claim: underfunded reserves, **insolvency risk**, regulatory penalties | Critical |
 
 #### Why False Negatives Are Fatal
 
 **False Negative = "The claim you never saw coming."** The company doesn't prepare funds because the model said "No Claim," but the policyholder files one anyway.
 
-1. **Insolvency Risk** — If multiple FNs occur simultaneously, reserves dry up. Regulators may revoke the operating license.
-2. **Reputation Damage** — Delayed claim payouts erode trust with customers and partner agencies.
-3. **Regulatory Fines** — Many jurisdictions impose penalties for late claim settlements.
+1. **Insolvency Risk**: If multiple FNs occur simultaneously, reserves dry up. Regulators may revoke the operating license.
+2. **Reputation Damage**: Delayed claim payouts erode trust with customers and partner agencies.
+3. **Regulatory Fines**: Many jurisdictions impose penalties for late claim settlements.
 
-> **Bottom line:** We'd rather be *overly cautious* (predict claim when there isn't one) than *caught off guard* (miss a real claim). Minimizing False Negatives is the #1 priority.
+**Bottom line:** We'd rather be *overly cautious* (predict claim when there isn't one) than *caught off guard* (miss a real claim). Minimizing False Negatives is the #1 priority.
 
 ### Cost Assumptions
 
@@ -133,7 +133,7 @@ Per-case cost assumptions used in ROI simulation:
 
 ---
 
-## Analytical Workflow — The Resampling Battle
+## Analytical Workflow (The Resampling Battle)
 
 ### The Challenge
 
@@ -393,11 +393,7 @@ travel-insurance-claim-prediction/
 |-- data_travel_insurance.csv                       # Raw dataset (44,328 records)
 |
 |-- models/
-|   |-- final_model_travel_insurance.sav            # Trained model (Pickle)
-|   |-- model_metadata.json                         # Model info, thresholds, metrics
-|
-|-- references/                                     # Reference materials
-    |-- Capstone Project Module 3 Guideline.pdf
-    |-- Bank_Marketing_Campaign_Prediction_Aplha_Group.ipynb
+    |-- final_model_travel_insurance.sav            # Trained model (Pickle)
+    |-- model_metadata.json                         # Model info, thresholds, metrics
 ```
 
